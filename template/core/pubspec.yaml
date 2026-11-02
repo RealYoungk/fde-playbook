@@ -1,0 +1,11 @@
+name: ops_core
+description: 도메인 독립 평가 하네스. 데이터 로딩, 프로파일링, 지표, 제약 검사, 시나리오 비교.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.10.0
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.25.0
