@@ -27,6 +27,7 @@ vendor-skills/              외부 공식 스킬 (각 폴더에 라이선스 포
   design/impeccable          Impeccable 4.8 (Apache 2.0)
 docs/
   PLAYBOOK.md                180분 운영안
+  PROMPTS.md                 시험 중 직접 개입할 때 쓰는 프롬프트 모음
   guide.html                 스페이스와이식 AX 방법론 학습 페이지 (브라우저로 열기)
   templates/                 STAKEHOLDERS, ONTOLOGY, REQUIREMENTS, QUESTIONS, OPEN_DECISIONS, AGREEMENT, DECISIONS, VERIFY, HANDOFF, RESULT
 scripts/
