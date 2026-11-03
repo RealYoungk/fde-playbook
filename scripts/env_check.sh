@@ -24,7 +24,14 @@ echo "== 계정 =="
 if [ "$(id -u)" = "0" ]; then warn "root 실행 중 → Serverpod 임베디드 PostgreSQL 사용 불가 (--no-database 권장)"; else ok "일반 사용자 $(id -un)"; fi
 
 echo "== 네트워크 =="
-if [ -e /proc/net/if_inet6 ] && [ -s /proc/net/if_inet6 ]; then ok "IPv6 사용 가능"; else bad "IPv6 없음 → Serverpod 4.x 서버 시작 실패 (anyIPv6 바인딩). 플랜 A 사용"; fi
+# /proc 파일은 크기가 0으로 보이므로 -s 대신 내용을 읽는다. /proc이 없는 macOS는 ifconfig/ip로 본다.
+ipv6_ok() {
+  if [ -r /proc/net/if_inet6 ]; then grep -q . /proc/net/if_inet6; return; fi
+  if command -v ip >/dev/null 2>&1; then ip -6 addr show 2>/dev/null | grep -q 'inet6 '; return; fi
+  if command -v ifconfig >/dev/null 2>&1; then ifconfig 2>/dev/null | grep -q 'inet6 '; return; fi
+  return 1
+}
+if ipv6_ok; then ok "IPv6 사용 가능"; else bad "IPv6 없음 → Serverpod 4.x 서버 시작 실패 (anyIPv6 바인딩). 플랜 A 사용"; fi
 if command -v curl >/dev/null 2>&1; then
   code=$(curl -s -o /dev/null -m 8 -w "%{http_code}" https://pub.dev/api/packages/jaspr || true)
   [ "$code" = "200" ] && ok "pub.dev 접근 가능" || bad "pub.dev 접근 불가($code) → 패키지 설치 불가, 의존성 없는 코드로 진행"
